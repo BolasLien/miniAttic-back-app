@@ -85,6 +85,12 @@ export default {
           caption: '輪播圖',
           icon: 'image',
           to: 'Carousel'
+        },
+        {
+          title: 'Intro',
+          caption: '小閣樓新鮮事',
+          icon: 'fiber_new',
+          to: 'Intro'
         }
       ]
     }
