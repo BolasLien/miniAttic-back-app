@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as getters from './getters'
+import * as mutations from './mutations'
+import state from './state'
+import createPersistedState from 'vuex-persistedstate'
 
 // import example from './module-example'
 
@@ -19,10 +23,13 @@ export default function (/* { ssrContext } */) {
     modules: {
       // example
     },
-
+    state,
+    getters,
+    mutations,
     // enable strict mode (adds overhead!)
     // for dev mode only
-    strict: process.env.DEV
+    strict: process.env.DEV,
+    plugins: [createPersistedState()]
   })
 
   return Store
