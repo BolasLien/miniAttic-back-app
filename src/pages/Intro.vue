@@ -1,49 +1,27 @@
 <template>
-  <div>
+  <div id="intro">
     <div class="row">
-      <div class="col-4">
-        <img src="http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-1.jpg" width="350">
-        <p>Intro-1</p>
-        <q-input outlined v-model="data[0].textModel" placeholder="圖片描述" :hint="data[0].text" />
-        <q-input outlined v-model="data[0].hrefModel" placeholder="超連結" :hint="data[0].href" />
+      <div v-for="(intro,index) in data" :key="index" class="edit col-lg-4 col-sm-12">
+        <p>Intro-{{index+1}}</p>
+        <img :src="intro.src">
+        <p>編輯</p>
+        <q-file color="teal" filled v-model="intro.file" label="選擇圖片">
+          <template v-slot:prepend>
+            <q-icon name="cloud_upload" />
+          </template>
+        </q-file>
+        <q-input class="text" outlined v-model="intro.textModel" placeholder="圖片描述" :hint="intro.text" />
+        <q-input class="text" outlined v-model="intro.hrefModel" placeholder="超連結" :hint="intro.href" />
+        <div class="controller">
         <q-btn push color="primary" label="保存" />
         <q-toggle
-          v-model="toggles[0]"
+          v-model="intro.show"
           checked-icon="check"
           color="green"
           unchecked-icon="clear"
           label="是否顯示"
-        />
+        /></div>
       </div>
-      <div class="col-4">
-        <img src="http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-2.jpg" width="350">
-        <p>Intro-1</p>
-        <q-input outlined v-model="data[0].textModel" placeholder="圖片描述" :hint="data[0].text" />
-        <q-input outlined v-model="data[0].hrefModel" placeholder="超連結" :hint="data[0].href" />
-        <q-btn push color="primary" label="保存" />
-        <q-toggle
-          v-model="toggles[0]"
-          checked-icon="check"
-          color="green"
-          unchecked-icon="clear"
-          label="是否顯示"
-        />
-      </div>
-      <div class="col-4">
-        <img src="http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-2.jpg" width="350">
-        <p>Intro-1</p>
-        <q-input outlined v-model="data[0].textModel" placeholder="圖片描述" :hint="data[0].text" />
-        <q-input outlined v-model="data[0].hrefModel" placeholder="超連結" :hint="data[0].href" />
-        <q-btn push color="primary" label="保存" />
-        <q-toggle
-          v-model="toggles[0]"
-          checked-icon="check"
-          color="green"
-          unchecked-icon="clear"
-          label="是否顯示"
-        />
-      </div>
-
     </div>
   </div>
 </template>
@@ -52,15 +30,33 @@
 export default {
   data () {
     return {
-      toggles: [
-        true, true, true
-      ],
       data: [
         {
+          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-1.jpg',
           textModel: '',
           hrefModel: '',
           text: '回首頁',
-          href: 'http://localhost:8080/'
+          href: 'http://localhost:8080/',
+          show: true,
+          file: null
+        },
+        {
+          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-2.jpg',
+          textModel: '',
+          hrefModel: '',
+          text: '回首頁',
+          href: 'http://localhost:8080/',
+          show: true,
+          file: null
+        },
+        {
+          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/index-intro-3.jpg',
+          textModel: '',
+          hrefModel: '',
+          text: '回首頁',
+          href: 'http://localhost:8080/',
+          show: true,
+          file: null
         }
       ]
     }
