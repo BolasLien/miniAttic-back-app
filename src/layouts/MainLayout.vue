@@ -16,7 +16,10 @@
           小閣樓 App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- <div>Quasar v{{ $q.version }}</div> -->
+        <div>
+          <q-btn color="red" icon-right="fas fa-sign-out-alt" label="登出" />
+        </div>
       </q-toolbar>
     </q-header>
 
