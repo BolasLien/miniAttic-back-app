@@ -1,7 +1,57 @@
 // app global css in SCSS form
-.custom-caption{
+.custom-caption {
   text-align: center;
   padding: 12px;
   color: white;
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#carousel {
+  .edit {
+    border-left: 1px solid var(--q-color-primary);
+    border-bottom: 1px solid var(--q-color-primary);
+    padding: 3rem;
+    box-sizing: border-box;
+  }
+
+  img{
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .q-file{
+    margin-bottom: 1rem;
+  }
+}
+
+#intro {
+  .edit {
+    border-left: 1px solid var(--q-color-primary);
+    border-bottom: 1px solid var(--q-color-primary);
+    padding: 3rem;
+    box-sizing: border-box;
+  }
+
+  .controller{
+    margin-top: 1rem;
+  }
+
+  img{
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .text{
+    margin-bottom: 1rem;
+  }
+
+  .q-file{
+    margin-bottom: 1rem;
+  }
+}
+
+#login{
+  .input{
+    margin-bottom: 2rem;
+  }
 }
