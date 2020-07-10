@@ -17,8 +17,8 @@
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
-        <div>
-          <q-btn color="red" icon-right="fas fa-sign-out-alt" label="登出" />
+        <div v-if="user.length !== 0">
+          <q-btn color="red" icon-right="fas fa-sign-out-alt" label="登出" @click="logout"/>
         </div>
       </q-toolbar>
     </q-header>
@@ -42,7 +42,7 @@
           :key="link.title"
           v-bind="link"
         />
-        <ExpansionItem></ExpansionItem>
+        <ExpansionItem v-if="user.length !== 0"></ExpansionItem>
       </q-list>
     </q-drawer>
 
@@ -75,6 +75,35 @@ export default {
           to: '/'
         }
       ]
+    }
+  },
+  methods: {
+    logout () {
+      this.$axios
+        .delete(process.env.API + '/logout')
+        .then(response => {
+          const data = response.data
+          // 如果回來的資料 success 是 true
+          if (data.success) {
+            alert('登出成功')
+            // 呼叫 vuex 的登出
+            this.$store.commit('logout')
+
+            // 跳到登出後的首頁
+            this.$router.push('login')
+          } else {
+            alert(data.message)
+          }
+        })
+        .catch(error => {
+          // 如果回來的狀態不是 200，顯示回來的 message
+          alert(error.response.data.message)
+        })
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
     }
   }
 }
