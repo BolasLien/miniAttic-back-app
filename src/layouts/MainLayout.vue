@@ -99,12 +99,44 @@ export default {
           // 如果回來的狀態不是 200，顯示回來的 message
           alert(error.response.data.message)
         })
+    },
+    heartbeat () {
+      this.$axios.get(process.env.API + '/heartbeat')
+        .then(response => {
+          const data = response.data
+          if (this.user.length > 0) {
+            if (!data) {
+              // alert('登入時效已過')
+              // 前端登出
+              this.$store.commit('logout')
+              // 如果現在不是在首頁，跳到登出後的首頁
+              if (this.$route.path !== '/') {
+                this.$router.push('/')
+              }
+            }
+          }
+        })
+        .catch(() => {
+          // alert('發生錯誤')
+          // console.log(error)
+          this.$store.commit('logout')
+          // 如果現在不是在首頁，跳到登出後的首頁
+          if (this.$route.path !== '/') {
+            this.$router.push('/')
+          }
+        })
     }
   },
   computed: {
     user () {
       return this.$store.getters.user
     }
+  },
+  mounted () {
+    this.heartbeat()
+    setInterval(() => {
+      this.heartbeat()
+    }, 1000 * 10)
   }
 }
 </script>
