@@ -29,21 +29,25 @@ export default {
     return {
       data: [
         {
+          name: 'carousel-item-1',
           src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-1.jpg',
           show: true,
           file: null
         },
         {
+          name: 'carousel-item-2',
           src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-2.jpg',
           show: true,
           file: null
         },
         {
+          name: 'carousel-item-3',
           src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-3.jpg',
           show: true,
           file: null
         },
         {
+          name: 'carousel-item-4',
           src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-4.jpg',
           show: true,
           file: null
@@ -62,8 +66,8 @@ export default {
       } else {
         // formData可以同時傳送檔案和表單資料
         const fd = new FormData()
-        fd.append('image', this.file)
-        fd.append('description', this.description)
+        fd.append('image', carousel.file)
+        // fd.append('description', this.description)
 
         this.$axios
           .post(process.env.API + '/file', fd, {
@@ -73,16 +77,16 @@ export default {
             }
           })
           .then(response => {
-            this.images.push({
-              title: this.description,
-              src: process.env.API + '/file/' + response.data.name,
-              name: response.data.name,
-              _id: response.data._id,
-              edit: false,
-              model: response.data.name
-            })
-            this.file = null
-            this.description = ''
+            // this.images.push({
+            //   title: this.description,
+            //   src: process.env.API + '/file/' + response.data.name,
+            //   name: response.data.name,
+            //   _id: response.data._id,
+            //   edit: false,
+            //   model: response.data.name
+            // })
+            // this.file = null
+            // this.description = ''
           })
           .catch(error => {
             alert(error.response.data.message)
