@@ -47,7 +47,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view v-if="isRouterAlive" />
     </q-page-container>
   </q-layout>
 </template>
@@ -63,9 +63,9 @@ export default {
     EssentialLink,
     ExpansionItem
   },
-
   data () {
     return {
+      isRouterAlive: true,
       leftDrawerOpen: false,
       essentialLinks: [
         {
@@ -110,8 +110,8 @@ export default {
               // 前端登出
               this.$store.commit('logout')
               // 如果現在不是在首頁，跳到登出後的首頁
-              if (this.$route.path !== '/') {
-                this.$router.push('/')
+              if (this.$route.path !== 'login') {
+                this.$router.push('login')
               }
             }
           }
@@ -121,10 +121,17 @@ export default {
           // console.log(error)
           this.$store.commit('logout')
           // 如果現在不是在首頁，跳到登出後的首頁
-          if (this.$route.path !== '/') {
-            this.$router.push('/')
+          if (this.$route.path !== '/login') {
+            this.$router.push('login')
           }
         })
+    },
+    reload () {
+      // 當前的路由要刷新的時候使用這個功能
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
     }
   },
   computed: {
@@ -137,6 +144,11 @@ export default {
     setInterval(() => {
       this.heartbeat()
     }, 1000 * 10)
+  },
+  provide () {
+    return {
+      reload: this.reload
+    }
   }
 }
 </script>
