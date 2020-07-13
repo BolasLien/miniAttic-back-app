@@ -2,10 +2,10 @@
   <div id="carousel">
     <q-form class="row">
       <div class="edit col-lg-3 col-md-12" v-for="(carousel,index) in data" :key="index">
-        <p>carousel-item-{{index+1}}</p>
+        <p>{{carousel.item}}</p>
         <img :src="carousel.src">
         <p>編輯</p>
-        <q-file color="teal" filled v-model="carousel.file" label="選擇圖片">
+        <q-file color="teal" filled v-model="carousel.file" label="選擇圖片" accept=".jpg" hint="限jpg">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
@@ -24,31 +24,34 @@
 </template>
 
 <script>
+import path from 'path'
+
 export default {
+  inject: ['reload'],
   data () {
     return {
       data: [
         {
-          name: 'carousel-item-1',
-          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-1.jpg',
+          item: 'carousel-item-1',
+          src: '',
           show: true,
           file: null
         },
         {
-          name: 'carousel-item-2',
-          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-2.jpg',
+          item: 'carousel-item-2',
+          src: '',
           show: true,
           file: null
         },
         {
-          name: 'carousel-item-3',
-          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-3.jpg',
+          item: 'carousel-item-3',
+          src: '',
           show: true,
           file: null
         },
         {
-          name: 'carousel-item-4',
-          src: 'http://220.128.133.15/s1090109/miniattic/assets/img/carousel-item-4.jpg',
+          item: 'carousel-item-4',
+          src: '',
           show: true,
           file: null
         }
@@ -66,32 +69,37 @@ export default {
       } else {
         // formData可以同時傳送檔案和表單資料
         const fd = new FormData()
-        fd.append('image', carousel.file)
-        // fd.append('description', this.description)
+        // append(欄位, 檔案, 檔名)
+        fd.append('image', carousel.file, carousel.item + path.extname(carousel.file.name))
+        fd.append('item', carousel.item)
+        fd.append('show', carousel.show)
 
         this.$axios
-          .post(process.env.API + '/file', fd, {
+          .post(process.env.API + '/pages', fd, {
             // 因為 axios 預設送 JSON，所以要自己設定成 formdata
             headers: {
               'content-Type': 'multipart/form-data'
             }
           })
           .then(response => {
-            // this.images.push({
-            //   title: this.description,
-            //   src: process.env.API + '/file/' + response.data.name,
-            //   name: response.data.name,
-            //   _id: response.data._id,
-            //   edit: false,
-            //   model: response.data.name
-            // })
-            // this.file = null
-            // this.description = ''
+            this.reload()
+            alert(response.data.message)
           })
           .catch(error => {
             alert(error.response.data.message)
           })
       }
+    }
+  },
+  mounted () {
+    for (let i = 0; i < this.data.length; i++) {
+      this.$axios.get(process.env.API + '/pages/carousel-item-' + (i + 1))
+        .then(response => {
+          this.data[i].src = response.data.src
+          this.data[i].show = response.data.show
+        }).catch(error => {
+          alert(error.response.data.message)
+        })
     }
   }
 }
