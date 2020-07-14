@@ -168,7 +168,9 @@ export default {
         .patch(process.env.API + '/pages/' + data.item, {
           show: data.show,
           description: (data.descriptionModel === undefined) ? data.description : data.descriptionModel,
-          link: (data.linkModel === undefined) ? data.link : data.linkModel
+          link: (data.linkModel === undefined) ? data.link : data.linkModel,
+          title: (data.titleModel === undefined) ? data.title : data.titleModel,
+          subtitle: (data.subtitleModel === undefined) ? data.subtitle : data.subtitleModel
         })
         .then(response => {
           this.reload()

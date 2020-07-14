@@ -35,6 +35,7 @@ export default {
   inject: ['reload', 'submit', 'upload'],
   data () {
     return {
+      title: {},
       datas: []
     }
   },

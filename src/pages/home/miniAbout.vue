@@ -1,6 +1,13 @@
 <template>
   <div id="miniabout">
     <div>
+      <div class="edit col-lg-4 col-sm-12">
+        <p>標題</p>
+        <q-input outlined v-model="title.titleModel" placeholder="標題" :hint="title.title" />
+        <q-input outlined v-model="title.subtitleModel" placeholder="副標題" :hint="title.subtitle" />
+        <br>
+        <q-btn push color="primary" label="保存" @click="submit(title)"/>
+      </div>
       <div v-for="(data,index) in datas" :key="index" class="row">
         <div class="edit col-lg-5 col-sm-12">
           <p>{{data.item}}</p>
@@ -38,6 +45,7 @@ export default {
   inject: ['reload', 'submit', 'upload'],
   data () {
     return {
+      title: {},
       datas: []
     }
   },
@@ -45,7 +53,8 @@ export default {
     // 頁面更新後重新拿資料
     this.$axios.get(process.env.API + '/pages/area/miniabout')
       .then(response => {
-        this.datas = response.data.datas
+        this.title = response.data.datas.filter(e => e.item === 'title')[0]
+        this.datas = response.data.datas.filter(e => e.item !== 'title')
       })
       .catch(error => {
         alert(error.response.data.message)

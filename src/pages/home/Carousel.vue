@@ -33,6 +33,7 @@ export default {
   inject: ['reload', 'submit', 'upload'],
   data () {
     return {
+      title: {},
       datas: []
     }
   },
@@ -40,7 +41,8 @@ export default {
     // 頁面更新後重新拿資料
     this.$axios.get(process.env.API + '/pages/area/carousel')
       .then(response => {
-        this.datas = response.data.datas
+        this.title = response.data.datas.filter(e => e.item === 'title')[0]
+        this.datas = response.data.datas.filter(e => e.item !== 'title')
       })
       .catch(error => {
         alert(error.response.data.message)
