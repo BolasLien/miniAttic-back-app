@@ -1,27 +1,27 @@
 <template>
   <div id="carousel">
     <q-form class="row">
-      <div class="edit col-lg-3 col-md-12" v-for="(carousel,index) in data" :key="index">
-        <p>{{carousel.item}}</p>
-        <img :src="carousel.src">
+      <div class="edit col-lg-3 col-md-12" v-for="(data,index) in datas" :key="index">
+        <p>{{data.item}}</p>
+        <img :src="data.src">
         <p>圖片上傳</p>
-        <q-file color="teal" filled v-model="carousel.file" label="選擇圖片" accept=".jpg" hint="限.jpg, 1M以下">
+        <q-file color="teal" filled v-model="data.file" label="選擇圖片" accept=".jpg" hint="限.jpg, 1M以下">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <q-btn push color="primary" label="上傳" @click="upload(carousel)"/>
+        <q-btn push color="primary" label="上傳" @click="upload(data)"/>
         <hr>
         <p>內容編輯</p>
         <q-toggle
-          v-model="carousel.show"
+          v-model="data.show"
           checked-icon="check"
           color="green"
           unchecked-icon="clear"
           label="是否顯示"
         />
         <br>
-        <q-btn push color="primary" label="保存" @click="submit(carousel)" />
+        <q-btn push color="primary" label="保存" @click="submit(data)" />
 
       </div>
     </q-form>
@@ -35,7 +35,7 @@ export default {
   inject: ['reload'],
   data () {
     return {
-      data: []
+      datas: []
     }
   },
   methods: {
@@ -86,7 +86,7 @@ export default {
     // 頁面更新後重新拿資料
     this.$axios.get(process.env.API + '/pages/area/carousel')
       .then(response => {
-        this.data = response.data.datas
+        this.datas = response.data.datas
       })
       .catch(error => {
         alert(error.response.data.message)
