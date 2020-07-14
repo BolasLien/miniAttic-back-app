@@ -18,7 +18,7 @@
         :content-inset-level="0.5"
       >
         <EssentialLink
-          v-for="link in essentialLinks"
+          v-for="link in homeLinks"
           :key="link.title"
           v-bind="link"
         />
@@ -26,42 +26,21 @@
 
       </q-expansion-item>
 
-      <q-expansion-item :content-inset-level="0.5" expand-separator icon="mail" label="Inbox" caption="5 unread emails" default-opened>
-        <q-expansion-item expand-separator :content-inset-level="0.5" icon="receipt" label="Receipts">
-
-          <q-expansion-item label="Today" :content-inset-level="0.5">
-            <q-card>
-              <q-card-section>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
-                commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-                eveniet doloribus ullam aliquid.
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
-
-          <q-expansion-item label="Yesterday" :content-inset-level="0.5">
-            <q-card>
-              <q-card-section>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
-                commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-                eveniet doloribus ullam aliquid.
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
-
-        </q-expansion-item>
-
-        <q-expansion-item :content-inset-level="0.5" expand-separator icon="schedule" label="Postponed">
-          <q-card>
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
-              commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-              eveniet doloribus ullam aliquid.
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-
+      <q-expansion-item
+        expand-separator
+        icon="store"
+        label="商店"
+        caption="商品管理"
+        default-opened
+        :content-inset-level="0.5"
+      >
+        <EssentialLink
+          v-for="link in shopLinks"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-expansion-item>
+
     </q-list>
   </div>
 </template>
@@ -79,7 +58,7 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      essentialLinks: [
+      homeLinks: [
         {
           title: 'Carousel',
           caption: '輪播圖',
@@ -87,10 +66,48 @@ export default {
           to: 'Carousel'
         },
         {
-          title: 'Intro',
+          title: 'miniNews',
           caption: '小閣樓新鮮事',
-          icon: 'fiber_new',
+          icon: 'fas fa-newspaper',
           to: 'Intro'
+        },
+        {
+          title: 'miniProducts',
+          caption: '小閣樓商品',
+          icon: 'fas fa-shopping-bag',
+          to: 'miniProducts'
+        },
+        {
+          title: 'miniAbout',
+          caption: '微介紹',
+          icon: 'fas fa-address-card',
+          to: 'miniAbout'
+        },
+        {
+          title: 'CallToAction',
+          caption: '試吃連結',
+          icon: 'fas fa-phone-square',
+          to: 'CallToAction'
+        },
+        {
+          title: 'miniRecommend',
+          caption: '好評推薦',
+          icon: 'fas fa-newspaper',
+          to: 'miniRecommend'
+        },
+        {
+          title: 'miniFooter',
+          caption: '首頁的底部',
+          icon: 'fas fa-step-forward',
+          to: 'miniFooter'
+        }
+      ],
+      shopLinks: [
+        {
+          title: 'Product List',
+          caption: '商品列表',
+          icon: 'fas fa-list',
+          to: 'ProductList'
         }
       ]
     }
