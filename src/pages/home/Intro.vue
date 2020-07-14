@@ -26,12 +26,18 @@
         <q-btn push color="primary" label="保存" @click="submit(data)"/>
 
       </div>
+      <Heading :title="title"></Heading>
     </div>
   </div>
 </template>
 
 <script>
+import Heading from 'components/Heading.vue'
+
 export default {
+  components: {
+    Heading
+  },
   inject: ['reload', 'submit', 'upload'],
   data () {
     return {
@@ -43,7 +49,8 @@ export default {
     // 頁面更新後重新拿資料
     this.$axios.get(process.env.API + '/pages/area/intro')
       .then(response => {
-        this.datas = response.data.datas
+        this.title = response.data.datas.filter(e => e.item === 'title')[0]
+        this.datas = response.data.datas.filter(e => e.item !== 'title')
       })
       .catch(error => {
         alert(error.response.data.message)

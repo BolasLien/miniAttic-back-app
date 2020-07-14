@@ -1,6 +1,6 @@
 <template>
   <div id="carousel">
-    <q-form class="row">
+    <div class="row">
       <div class="edit col-lg-3 col-md-12" v-for="(data,index) in datas" :key="index">
         <p>{{data.item}}</p>
         <img :src="data.src">
@@ -22,13 +22,13 @@
         />
         <br>
         <q-btn push color="primary" label="保存" @click="submit(data)" />
-
       </div>
-    </q-form>
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
   inject: ['reload', 'submit', 'upload'],
   data () {
