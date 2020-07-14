@@ -165,7 +165,7 @@ export default {
     },
     submit (data) {
       this.$axios
-        .patch(process.env.API + '/pages/' + data.item, {
+        .patch(process.env.API + '/pages/' + data.area + '/' + data.item, {
           show: data.show,
           description: (data.descriptionModel === undefined) ? data.description : data.descriptionModel,
           link: (data.linkModel === undefined) ? data.link : data.linkModel,
