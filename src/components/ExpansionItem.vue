@@ -107,7 +107,7 @@ export default {
           title: 'Product List',
           caption: '商品列表',
           icon: 'fas fa-list',
-          to: '/'
+          to: 'Products'
         }
       ]
     }

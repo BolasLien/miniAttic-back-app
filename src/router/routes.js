@@ -13,6 +13,7 @@ const routes = [
       { path: 'CallToAction', component: () => import('pages/home/CallToAction.vue') },
       { path: 'miniRecommend', component: () => import('pages/home/miniRecommend.vue') },
       { path: 'miniFooter', component: () => import('pages/home/miniFooter.vue') },
+      { path: 'Products', component: () => import('pages/shop/Products.vue') },
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'Reg', component: () => import('pages/Reg.vue') }
     ]
