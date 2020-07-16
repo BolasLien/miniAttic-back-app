@@ -47,7 +47,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view v-if="isRouterAlive" />
+      <router-view v-if="isRouterAlive"  :to="isLogin"/>
     </q-page-container>
   </q-layout>
 </template>
@@ -134,7 +134,7 @@ export default {
         this.isRouterAlive = true
       })
     },
-    upload (data) {
+    upload (data, collection) {
       if (
         data.file === null ||
         data.file.size >= 1024 * 1024 ||
@@ -146,9 +146,10 @@ export default {
         const fd = new FormData()
         // append(欄位, 檔案, 檔名)
         fd.append('image', data.file, data.item + path.extname(data.file.name))
+        fd.append('collection', collection)
 
         this.$axios
-          .post(process.env.API + '/pages/' + data.item, fd, {
+          .post(process.env.API + '/img/' + data.item, fd, {
             // 因為 axios 預設送 JSON，所以要自己設定成 formdata
             headers: {
               'content-Type': 'multipart/form-data'
@@ -184,6 +185,10 @@ export default {
   computed: {
     user () {
       return this.$store.getters.user
+    },
+    isLogin () {
+      const to = this.user.length !== 0 ? '/' : 'Login'
+      return to
     }
   },
   mounted () {
