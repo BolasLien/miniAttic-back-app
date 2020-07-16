@@ -10,7 +10,7 @@
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <q-btn push color="primary" label="上傳" @click="upload(data)"/>
+        <q-btn push color="primary" label="上傳" @click="upload(data,'page')"/>
         <hr>
         <p>內容編輯</p>
         <q-toggle
