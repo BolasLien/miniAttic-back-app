@@ -1,5 +1,6 @@
 <template>
   <div id="intro">
+    <Heading :title="title"></Heading>
     <div class="row">
       <div v-for="(data,index) in datas" :key="index" class="edit col-lg-4 col-sm-12">
         <p>{{data.item}}</p>
@@ -10,7 +11,7 @@
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <q-btn push color="primary" label="上傳" @click="upload(data)"/>
+        <q-btn push color="primary" label="上傳" @click="upload(data,'page')"/>
         <hr>
         <p>內容編輯</p>
         <q-input class="text" outlined v-model="data.descriptionModel" placeholder="圖片描述" :hint="data.description" />
@@ -26,7 +27,6 @@
         <q-btn push color="primary" label="保存" @click="submit(data)"/>
 
       </div>
-      <Heading :title="title"></Heading>
     </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <template>
   <div id="miniabout">
+    <Heading :title="title"></Heading>
     <div class="row">
       <div v-for="(data,index) in datas" :key="index" class="edit col-lg-4 col-sm-12">
         <p>{{data.item}}</p>
@@ -24,7 +25,6 @@
         <br>
         <q-btn push color="primary" label="保存" @click="submit(data)"/>
       </div>
-      <Heading :title="title"></Heading>
     </div>
   </div>
 </template>
