@@ -1,110 +1,119 @@
 <template>
   <div id="products">
-    <div class="row">
-      <div class="col-10">
-        商品列表
-      </div>
-      <div class="col-2">
-        <q-btn push color="positive" label="新增商品" @click="newProdouct = true"></q-btn>
-      </div>
-    </div>
-
   <div class="q-pa-md">
     <q-table
-      title="Treats"
+      title="商品列表"
       :data="data"
       :columns="columns"
       row-key="name"
     >
+    <template v-slot:top>
+      <div class="text-h4">
+        商品列表
+      </div>
+      <q-space></q-space>
+        <q-btn push color="positive" label="新增商品" @click="add = true"></q-btn>
+    </template>
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td key="img" :props="props">
+            <q-img :src="props.row.src" style="width: 120px; " :ratio="4/3">
+            </q-img>
+          </q-td>
+          <q-td key="upload" :props="props">
+            <q-file color="teal" filled v-model="props.row.file" label="選擇圖片" accept=".jpg" hint="限.jpg, 1M以下">
+              <template v-slot:prepend>
+                <q-icon name="cloud_upload" />
+              </template>
+            </q-file>
+            <q-btn push color="primary" label="上傳" @click="upload(props.row,'product')"/>
+          </q-td>
           <q-td key="name" :props="props">
-            {{ props.row.name }}
+              <div class="text-subtitle1 text-center">
+              {{ props.row.name }}
+              </div>
           </q-td>
-          <q-td key="calories" :props="props">
-            <q-badge color="green">
-              {{ props.row.calories }}
+          <q-td key="class" :props="props">
+            <q-badge color="warning">
+              {{ props.row.class }}
             </q-badge>
           </q-td>
-          <q-td key="fat" :props="props">
-            <q-badge color="purple">
-              {{ props.row.fat }}
+          <q-td key="price" :props="props">
+              <div class="text-negative">
+              NT$&ensp;{{ props.row.price }}
+              </div>
+          </q-td>
+          <q-td key="show" :props="props">
+            <q-badge :color="props.row.show? 'positive' : 'nagative'">
+              {{ props.row.show }}
             </q-badge>
           </q-td>
-          <q-td key="carbs" :props="props">
-            <q-badge color="orange">
-              {{ props.row.carbs }}
-            </q-badge>
-          </q-td>
-          <q-td key="protein" :props="props">
-            <q-badge color="primary">
-              {{ props.row.protein }}
-            </q-badge>
-          </q-td>
-          <q-td key="sodium" :props="props">
-            <q-badge color="teal">
-              {{ props.row.sodium }}
-            </q-badge>
-          </q-td>
-          <q-td key="calcium" :props="props">
-            <q-badge color="accent">
-              {{ props.row.calcium }}
-            </q-badge>
-          </q-td>
-          <q-td key="iron" :props="props">
-            <q-badge color="amber">
-              {{ props.row.iron }}
-            </q-badge>
+          <q-td key="action" :props="props">
+            <q-btn push color="primary" label="編輯內容" @click="editProduct(props.row)"></q-btn>
+            <q-btn push color="positive" label="預覽" @click="newProdouct = true"></q-btn>
+            <q-btn push color="negative" label="刪除" @click="newProdouct = true"></q-btn>
           </q-td>
         </q-tr>
       </template>
     </q-table>
   </div>
 
-    <!-- <div class="row">
-      <div class="col-12">
-        <q-list>
-          <q-item clickable v-ripple class="row">
-            <q-item-section thumbnail class="col-2">
-              <img src="https://cdn.quasar.dev/img/mountains.jpg">
-            </q-item-section>
-            <q-item-section class="col-2">List item</q-item-section>
-            <q-item-section class="col-2">show</q-item-section>
-            <q-item-section class="col-2">
-              <q-btn push color="positive" label="編輯" @click="edit = true"></q-btn>
-              <q-btn push color="positive" label="預覽" @click="edit = true"></q-btn>
-              <q-btn push color="positive" label="刪除" @click="edit = true"></q-btn>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </div>
-    </div> -->
-
-    <q-dialog v-model="newProdouct" persistent>
-      <q-card style="min-width: 350px">
+  <!-- 新增商品的彈窗 -->
+    <q-dialog v-model="add" persistent>
+      <q-card style="min-width: 500px">
         <q-card-section>
           <div class="text-h6">新增商品</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input class="text" outlined placeholder="商品名稱" />
-          <q-select outlined v-model="model" :options="options" label="分類" />
-          <q-input class="text" outlined placeholder="標語" />
-          <q-input class="text" outlined placeholder="簡述" />
-          <q-input prefix="$" class="text" outlined placeholder="價格" />
-          <q-input class="text" outlined placeholder="介紹" />
+          <q-input class="text" v-model="addData.name" outlined placeholder="商品名稱" />
+          <q-select outlined v-model="addData.class" :options="options" label="分類" />
+          <q-input class="text" v-model="addData.subheading" outlined placeholder="副標題" />
+          <q-input class="text" v-model="addData.intro" outlined placeholder="簡述" />
+          <q-input prefix="$" class="text" v-model="addData.price" outlined placeholder="價格" />
+          <q-input class="text" v-model="addData.description" type="textarea" outlined placeholder="介紹" />
         <q-toggle
-          v-model="show"
+          v-model="addData.show"
           checked-icon="check"
           color="green"
           unchecked-icon="clear"
-          label="是否顯示"
+          label="是否上架"
         />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="取消" v-close-popup />
-          <q-btn flat label="新增" v-close-popup @click="submit" />
+          <q-btn flat label="送出" v-close-popup @click="create(addData)" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- 編輯商品的彈窗 -->
+    <q-dialog v-model="edit" persistent>
+      <q-card style="min-width: 500px">
+        <q-card-section>
+          <div class="text-h6">商品編輯</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input class="text" v-model="editData.name" outlined placeholder="商品名稱" />
+          <q-select v-model="editData.class" outlined :options="options" label="分類" />
+          <q-input class="text" v-model="editData.subheading" outlined placeholder="副標題" />
+          <q-input class="text" v-model="editData.intro" outlined placeholder="簡述" />
+          <q-input prefix="$" class="text" v-model="editData.price" outlined placeholder="價格" />
+          <q-input class="text" v-model="editData.description" type="textarea" outlined placeholder="介紹" />
+        <q-toggle
+          v-model="editData.show"
+          checked-icon="check"
+          color="green"
+          unchecked-icon="clear"
+          label="是否上架"
+        />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="取消" v-close-popup @click="edit=false"/>
+          <q-btn flat label="送出" v-close-popup @click="update(editData)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -113,61 +122,66 @@
 
 <script>
 export default {
+  inject: ['upload', 'updateProduct', 'createProduct', 'reload'],
   data () {
     return {
       columns: [
-        {
-          name: 'name',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        { name: 'img', align: 'center', label: '商品圖片' },
+        { name: 'upload', align: 'center', label: '圖片上傳' },
+        { name: 'name', align: 'center', label: '名稱', sortable: true },
+        { name: 'class', align: 'center', label: '分類', sortable: true },
+        { name: 'price', align: 'center', label: '價格', sortable: true },
+        { name: 'show', align: 'center', label: '是否上架', sortable: true },
+        { name: 'action', align: 'center', label: '操作', sortable: true }
       ],
-      data: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: '14%',
-          iron: '1%'
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: '8%',
-          iron: '1%'
-        }
-      ],
-      newProdouct: false,
+      data: [],
+      add: false,
+      addData: {
+        class: '',
+        name: '',
+        show: true,
+        subheading: '',
+        intro: '',
+        price: '',
+        description: ''
+      },
+
+      // 編輯商品彈窗的參數
       edit: false,
+      editData: {
+        class: '',
+        name: '',
+        show: '',
+        subheading: '',
+        intro: '',
+        price: '',
+        description: ''
+      },
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
-      model: '',
-      show: true
+      model: ''
     }
   },
   methods: {
-    submit () {
-
+    editProduct (data) {
+      this.edit = true
+      this.editData = data
+    },
+    update (data) {
+      this.updateProduct(data)
+    },
+    create (data) {
+      this.createProduct(data)
     }
+  },
+  mounted () {
+    this.$axios.get(process.env.API + '/products')
+      .then((response) => {
+        this.data = response.data.datas
+      }).catch((error) => {
+        console.log(error.response.data)
+      })
   }
 }
 </script>
