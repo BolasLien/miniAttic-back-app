@@ -14,7 +14,7 @@
         <q-btn push color="primary" label="上傳" @click="upload(data,'page')"/>
         <hr>
         <p>內容編輯</p>
-        <q-input class="text" outlined v-model="data.descriptionModel" placeholder="圖片描述" :hint="data.description" />
+        <q-input class="text" outlined v-model="data.description1Model" placeholder="圖片描述" :hint="data.description1" />
         <q-input class="text" outlined v-model="data.linkModel" placeholder="超連結" :hint="data.link" />
         <q-toggle
           v-model="data.show"
@@ -47,10 +47,10 @@ export default {
   },
   mounted () {
     // 頁面更新後重新拿資料
-    this.$axios.get(process.env.API + '/pages/area/intro')
+    this.$axios.get(process.env.API + '/pages/intro')
       .then(response => {
-        this.title = response.data.datas.filter(e => e.item === 'title')[0]
-        this.datas = response.data.datas.filter(e => e.item !== 'title')
+        this.title = response.data.datas.filter(e => e.item.includes('title'))[0]
+        this.datas = response.data.datas.filter(e => !e.item.includes('title'))
       })
       .catch(error => {
         alert(error.response.data.message)

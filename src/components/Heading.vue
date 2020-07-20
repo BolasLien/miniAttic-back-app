@@ -1,8 +1,8 @@
 <template>
   <div class="heading">
-    <p>{{title.item}}</p>
-      <q-input class="inline on-left" outlined v-model="title.titleModel" placeholder="標題" :hint="title.title" />
-      <q-input class="inline on-left" outlined v-model="title.subtitleModel" placeholder="副標題" :hint="title.subtitle" />
+    <p class="item">{{title.item}}</p>
+    <q-input class="inline on-left" outlined v-model="title.description1Model" placeholder="標題" :hint="title.description1" />
+    <q-input class="inline on-left" outlined v-model="title.description2Model" placeholder="副標題" :hint="title.description2" />
     <q-btn push color="primary" label="保存" @click="submit(title)"/>
   </div>
 </template>

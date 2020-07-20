@@ -13,9 +13,9 @@
         <q-btn push color="primary" label="上傳" @click="upload(data,'page')"/>
         <hr>
         <p>內容編輯</p>
-        <q-input class="text" outlined v-model="data.titleModel" placeholder="標題" :hint="data.title" />
-        <q-input class="text" outlined v-model="data.subtitleModel" placeholder="副標題" :hint="data.subtitle" />
-        <q-input class="text" outlined v-model="data.descriptionModel" placeholder="按鈕文字" :hint="data.description" />
+        <q-input class="text" outlined v-model="data.description1Model" placeholder="標題" :hint="data.description1" />
+        <q-input class="text" outlined v-model="data.description2Model" placeholder="副標題" :hint="data.description2" />
+        <q-input class="text" outlined v-model="data.description3Model" placeholder="按鈕文字" :hint="data.description3" />
         <q-input class="text" outlined v-model="data.linkModel" placeholder="超連結" :hint="data.link" />
         <q-toggle
           v-model="data.show"
@@ -41,9 +41,10 @@ export default {
   },
   mounted () {
     // 頁面更新後重新拿資料
-    this.$axios.get(process.env.API + '/pages/area/calltoaction')
+    this.$axios.get(process.env.API + '/pages/calltoaction')
       .then(response => {
-        this.datas = response.data.datas.filter(e => e.item !== 'title')
+        this.title = response.data.datas.filter(e => e.item.includes('title'))[0]
+        this.datas = response.data.datas.filter(e => !e.item.includes('title'))
       })
       .catch(error => {
         alert(error.response.data.message)

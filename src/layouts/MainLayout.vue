@@ -111,7 +111,7 @@ export default {
               // 前端登出
               this.$store.commit('logout')
               // 如果現在不是在首頁，跳到登出後的首頁
-              if (this.$route.path !== 'login') {
+              if (this.$route.path !== '/login') {
                 this.$router.push('login')
               }
             }
@@ -166,12 +166,12 @@ export default {
     },
     submit (data) {
       this.$axios
-        .patch(process.env.API + '/pages/' + data.area + '/' + data.item, {
+        .patch(process.env.API + '/pages/' + data.item, {
           show: data.show,
-          description: (data.descriptionModel === undefined) ? data.description : data.descriptionModel,
-          link: (data.linkModel === undefined) ? data.link : data.linkModel,
-          title: (data.titleModel === undefined) ? data.title : data.titleModel,
-          subtitle: (data.subtitleModel === undefined) ? data.subtitle : data.subtitleModel
+          description1: (data.description1Model === undefined) ? data.description1 : data.description1Model,
+          description2: (data.description2Model === undefined) ? data.description2 : data.description2Model,
+          description3: (data.description3Model === undefined) ? data.description3 : data.description3Model,
+          link: (data.linkModel === undefined) ? data.link : data.linkModel
         })
         .then(response => {
           this.reload()

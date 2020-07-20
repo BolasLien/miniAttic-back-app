@@ -4,7 +4,7 @@
       <div v-for="(data,index) in datas" :key="index" class="edit col-lg-4 col-sm-12">
         <p>{{data.item}}</p>
         <p>內容編輯</p>
-        <q-input class="text" type="textarea" outlined v-model="data.descriptionModel" placeholder="圖片描述" :hint="data.description" />
+        <q-input class="text" type="textarea" outlined v-model="data.description1Model" placeholder="內容" :hint="data.description1" />
         <q-toggle
           v-model="data.show"
           checked-icon="check"
@@ -30,9 +30,10 @@ export default {
   },
   mounted () {
     // 頁面更新後重新拿資料
-    this.$axios.get(process.env.API + '/pages/area/minifooter')
+    this.$axios.get(process.env.API + '/pages/minifooter')
       .then(response => {
-        this.datas = response.data.datas.filter(e => e.item !== 'title')
+        this.title = response.data.datas.filter(e => e.item.includes('title'))[0]
+        this.datas = response.data.datas.filter(e => !e.item.includes('title'))
       })
       .catch(error => {
         alert(error.response.data.message)

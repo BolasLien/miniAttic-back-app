@@ -8,6 +8,11 @@
 
 .heading{
   padding: 2rem;
+  border: 1px solid var(--q-color-primary);
+}
+
+.edit:last-child{
+  border-right: 1px solid var(--q-color-primary);
 }
 
 .edit {

@@ -39,10 +39,10 @@ export default {
   },
   mounted () {
     // 頁面更新後重新拿資料
-    this.$axios.get(process.env.API + '/pages/area/carousel')
+    this.$axios.get(process.env.API + '/pages/carousel')
       .then(response => {
-        this.title = response.data.datas.filter(e => e.item === 'title')[0]
-        this.datas = response.data.datas.filter(e => e.item !== 'title')
+        this.title = response.data.datas.filter(e => e.item.includes('title'))[0]
+        this.datas = response.data.datas.filter(e => !e.item.includes('title'))
       })
       .catch(error => {
         alert(error.response.data.message)
