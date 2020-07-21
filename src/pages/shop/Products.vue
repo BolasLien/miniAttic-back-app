@@ -51,7 +51,7 @@
           <q-td key="action" :props="props">
             <q-btn push color="primary" label="編輯內容" @click="editProduct(props.row)"></q-btn>
             <q-btn push color="positive" label="預覽" @click="newProdouct = true"></q-btn>
-            <q-btn push color="negative" label="刪除" @click="newProdouct = true"></q-btn>
+            <q-btn push color="negative" label="刪除" @click="remove(props.row)"></q-btn>
           </q-td>
         </q-tr>
       </template>
@@ -172,8 +172,15 @@ export default {
     create (data) {
       this.createProduct(data)
     },
-    selectClass (data) {
-
+    remove (data) {
+      this.$axios.delete(process.env.API + '/products/' + data.item)
+        .then(response => {
+          console.log(response.data)
+          alert(response.data.message)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   mounted () {
