@@ -216,6 +216,33 @@ export default {
         .catch(error => {
           alert(error.response.data.message)
         })
+    },
+    updateCategory (data) {
+      this.$axios.patch(process.env.API + '/categorys/' + data.item, {
+        name: data.name,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
+    },
+    createCategory (data) {
+      this.$axios.post(process.env.API + '/categorys', {
+        item: data.item,
+        name: data.name,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
     }
   },
   computed: {
@@ -239,7 +266,9 @@ export default {
       submit: this.submit,
       upload: this.upload,
       updateProduct: this.updateProduct,
-      createProduct: this.createProduct
+      createProduct: this.createProduct,
+      updateCategory: this.updateCategory,
+      createCategory: this.createCategory
     }
   }
 }

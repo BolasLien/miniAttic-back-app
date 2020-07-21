@@ -108,6 +108,12 @@ export default {
           caption: '商品列表',
           icon: 'fas fa-list',
           to: 'Products'
+        },
+        {
+          title: 'Categorys',
+          caption: '商品分類',
+          icon: 'fas fa-tags',
+          to: 'Category'
         }
       ]
     }

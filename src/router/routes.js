@@ -14,6 +14,7 @@ const routes = [
       { path: 'miniRecommend', component: () => import('pages/home/miniRecommend.vue') },
       { path: 'miniFooter', component: () => import('pages/home/miniFooter.vue') },
       { path: 'Products', component: () => import('pages/shop/Products.vue') },
+      { path: 'Category', component: () => import('pages/shop/Category.vue') },
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'Reg', component: () => import('pages/Reg.vue') }
     ]

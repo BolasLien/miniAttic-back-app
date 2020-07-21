@@ -35,7 +35,7 @@
           </q-td>
           <q-td key="class" :props="props">
             <q-badge color="warning">
-              {{ props.row.class }}
+              {{ options.find(e=>e.value === props.row.class).label }}
             </q-badge>
           </q-td>
           <q-td key="price" :props="props">
@@ -67,7 +67,7 @@
 
         <q-card-section class="q-pt-none">
           <q-input class="text" v-model="addData.name" outlined placeholder="商品名稱" />
-          <q-select outlined v-model="addData.class" :options="options" label="分類" />
+          <q-select outlined v-model="addData.class" :options="options" :emit-value="true"  label="分類" />
           <q-input class="text" v-model="addData.subheading" outlined placeholder="副標題" />
           <q-input class="text" v-model="addData.intro" outlined placeholder="簡述" />
           <q-input prefix="$" class="text" v-model="addData.price" outlined placeholder="價格" />
@@ -97,7 +97,7 @@
 
         <q-card-section class="q-pt-none">
           <q-input class="text" v-model="editData.name" outlined placeholder="商品名稱" />
-          <q-select v-model="editData.class" outlined :options="options" label="分類" />
+          <q-select v-model="editData.class" outlined :options="options" :emit-value="true" label="分類" />
           <q-input class="text" v-model="editData.subheading" outlined placeholder="副標題" />
           <q-input class="text" v-model="editData.intro" outlined placeholder="簡述" />
           <q-input prefix="$" class="text" v-model="editData.price" outlined placeholder="價格" />
@@ -126,13 +126,13 @@ export default {
   data () {
     return {
       columns: [
-        { name: 'img', align: 'center', label: '商品圖片' },
-        { name: 'upload', align: 'center', label: '圖片上傳' },
-        { name: 'name', align: 'center', label: '名稱', sortable: true },
-        { name: 'class', align: 'center', label: '分類', sortable: true },
-        { name: 'price', align: 'center', label: '價格', sortable: true },
-        { name: 'show', align: 'center', label: '是否上架', sortable: true },
-        { name: 'action', align: 'center', label: '操作', sortable: true }
+        { name: 'img', field: 'img', align: 'center', label: '商品圖片' },
+        { name: 'upload', field: 'upload', align: 'center', label: '圖片上傳' },
+        { name: 'name', field: 'name', align: 'center', label: '名稱', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'class', field: 'class', align: 'center', label: '分類', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'price', field: 'price', align: 'center', label: '價格', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'show', field: 'show', align: 'center', label: '是否上架', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'action', field: 'action', align: 'center', label: '操作' }
       ],
       data: [],
       add: false,
@@ -157,9 +157,7 @@ export default {
         price: '',
         description: ''
       },
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
+      options: [],
       model: ''
     }
   },
@@ -173,12 +171,26 @@ export default {
     },
     create (data) {
       this.createProduct(data)
+    },
+    selectClass (data) {
+
     }
   },
   mounted () {
     this.$axios.get(process.env.API + '/products')
       .then((response) => {
         this.data = response.data.datas
+      }).catch((error) => {
+        console.log(error.response.data)
+      })
+
+    this.$axios.get(process.env.API + '/categorys')
+      .then((response) => {
+        const categorys = response.data.datas
+        this.options = []
+        for (const c of categorys) {
+          this.options.push({ label: c.name, value: c.item })
+        }
       }).catch((error) => {
         console.log(error.response.data)
       })
