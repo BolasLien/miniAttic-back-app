@@ -34,7 +34,7 @@
               </div>
           </q-td>
           <q-td key="class" :props="props">
-            <q-badge color="warning">
+            <q-badge v-if="options.length>0" color="warning">
               {{ options.find(e=>e.value === props.row.class).label }}
             </q-badge>
           </q-td>
