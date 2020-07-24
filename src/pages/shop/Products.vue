@@ -67,7 +67,7 @@
 
         <q-card-section class="q-pt-none">
           <q-input class="text" v-model="addData.name" outlined placeholder="商品名稱" />
-          <q-select outlined v-model="addData.class" :options="options" :emit-value="true"  label="分類" />
+          <q-select outlined v-model="addData.class" :options="options" :emit-value="true" label="分類" />
           <q-input class="text" v-model="addData.subheading" outlined placeholder="副標題" />
           <q-input class="text" v-model="addData.intro" outlined placeholder="簡述" />
           <q-input prefix="$" class="text" v-model="addData.price" outlined placeholder="價格" />

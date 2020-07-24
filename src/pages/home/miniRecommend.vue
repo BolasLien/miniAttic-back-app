@@ -6,7 +6,7 @@
         <p>{{data.item}}</p>
         <img :src="data.src">
         <p>圖片上傳</p>
-        <q-file color="teal" filled v-model="data.file" label="選擇圖片" accept=".jpg" hint="限.jpg, 1M以下">
+        <q-file color="primary" filled v-model="data.file" label="選擇圖片" accept=".jpg" hint="限.jpg, 1M以下">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
