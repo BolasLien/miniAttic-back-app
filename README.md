@@ -1,26 +1,18 @@
-# Quasar App (quasar-admin)
+# 小閣樓網路商店
+[DEMO](https://bolaslien.github.io/miniAttic-front-app/)
 
-A Quasar Framework app
+## 後台
+### 相關Github連結
+[前台](https://github.com/BolasLien/my-page)
+[管理系統](https://github.com/BolasLien/miniAttic-back-app)
+[Server](https://github.com/BolasLien/miniAttic-api-server)
 
-## Install the dependencies
-```bash
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
-
-### Lint the files
-```bash
-npm run lint
-```
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+### 開發工具、部屬環境
+- Quasar Cli
+- Axios
+- Server放Heroku
+- DB放MongoDB Atlas
+- 管理系統暫時不上雲端...怕前台東西被亂改
+### 網站截圖
+![](https://i.imgur.com/aWAvug3.png)
+![](https://i.imgur.com/MjnKcZa.png)
