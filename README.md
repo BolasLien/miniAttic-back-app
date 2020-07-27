@@ -1,7 +1,7 @@
 # 小閣樓網路商店
 [DEMO](https://bolaslien.github.io/miniAttic-front-app/)
 
-## 後台
+## 後台管理系統
 ### 相關連結
 - [前台](https://github.com/BolasLien/my-page)
 - [管理系統](https://github.com/BolasLien/miniAttic-back-app)
