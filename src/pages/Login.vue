@@ -45,7 +45,11 @@ export default {
           const data = response.data
           if (data.success) {
             // 如果回來的資料 success 是 true
-            alert('登入成功')
+            // alert('登入成功')
+            this.$q.dialog({
+              title: 'alert',
+              message: '登入成功'
+            })
             // 呼叫 vuex 的登入
             this.$store.commit('login', this.account)
 

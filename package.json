@@ -2,7 +2,7 @@
   "name": "quasar-admin",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "backend App",
+  "productName": "小閣樓後臺管理系統",
   "author": "BolasLien <ltzuen@gmail.com>",
   "private": true,
   "scripts": {
