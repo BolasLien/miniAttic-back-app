@@ -34,7 +34,7 @@
             </q-td>
             <q-td key="action" :props="props">
               <q-btn push color="primary" label="編輯內容" @click="editCategory(props.row)"></q-btn>
-              <q-btn push color="negative" label="刪除" @click="newProdouct = true"></q-btn>
+              <q-btn push color="negative" label="刪除" @click="remove(props.row)"></q-btn>
             </q-td>
           </q-tr>
         </template>
@@ -96,7 +96,7 @@
 
 <script>
 export default {
-  inject: ['createCategory', 'updateCategory'],
+  inject: ['reload'],
   data () {
     return {
       columns: [
@@ -121,11 +121,44 @@ export default {
       this.editData = data
     },
     create (data) {
-      this.createCategory(data)
+      this.$axios.post(process.env.API + '/categorys', {
+        item: data.item,
+        name: data.name,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
     },
     update (data) {
-      this.updateCategory(data)
+      this.$axios.patch(process.env.API + '/categorys/' + data.item, {
+        name: data.name,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
+    },
+    remove (data) {
+      this.$axios.delete(process.env.API + '/categorys/' + data.item)
+        .then(response => {
+          this.reload()
+          console.log(response.data)
+          alert(response.data.message)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+
   },
   mounted () {
     this.$axios.get(process.env.API + '/categorys')
