@@ -44,13 +44,13 @@
           </q-td>
                     <q-td key="status" :props="props">
               <div class="text-subtitle1 text-center">
-              {{ props.row.status }}
+              {{ status.find(e=>e.value === props.row.status).label }}
               </div>
           </q-td>
           <q-td key="action" :props="props">
-            <q-btn push color="primary" label="編輯內容" @click="editProduct(props.row)"></q-btn>
-            <q-btn push color="positive" label="預覽" @click="newProdouct = true"></q-btn>
-            <q-btn push color="negative" label="刪除" @click="remove(props.row)"></q-btn>
+            <q-btn push color="primary" label="編輯內容" @click="editOrder(props.row)"></q-btn>
+            <!-- <q-btn push color="positive" label="預覽" @click="newProdouct = true"></q-btn> -->
+            <q-btn push color="negative" label="刪除" @click="removeOrder(props.row)"></q-btn>
           </q-td>
         </q-tr>
       </template>
@@ -91,23 +91,38 @@
     <q-dialog v-model="edit" persistent>
       <q-card style="min-width: 500px">
         <q-card-section>
-          <div class="text-h6">商品編輯</div>
+          <div class="text-h6">訂單編輯</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input class="text" v-model="editData.name" outlined placeholder="商品名稱" />
-          <!-- <q-select v-model="editData.class" outlined :options="options" :emit-value="true" label="分類" /> -->
-          <q-input class="text" v-model="editData.subheading" outlined placeholder="副標題" />
-          <q-input class="text" v-model="editData.intro" outlined placeholder="簡述" />
-          <q-input prefix="$" class="text" v-model="editData.price" outlined placeholder="價格" />
-          <q-input class="text" v-model="editData.description" type="textarea" outlined placeholder="介紹" />
-        <q-toggle
+          <p>會員帳號：{{editData.account}}</p>
+          <div class="row" v-for="(item, index) in editData.products" :key="index">
+            <div class="col-3">
+              <q-img :src="item.src" ></q-img>
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-8">
+              <p>{{ item.name}}</p>
+              <p>x{{ item.amount}}</p>
+              <p>{{ item.price}}</p>
+            </div>
+            <hr>
+          </div>
+
+          <!-- <q-input class="text" v-model="editData.name" outlined placeholder="商品名稱" /> -->
+          <q-select v-model="editData.status" outlined :options="status" :emit-value="true" label="訂單狀態" />
+          <!-- <q-input class="text" v-model="editData.subheading" outlined placeholder="副標題" /> -->
+          <!-- <q-input class="text" v-model="editData.intro" outlined placeholder="簡述" /> -->
+          <!-- <q-input prefix="$" class="text" v-model="editData.price" outlined placeholder="價格" /> -->
+          <!-- <q-input class="text" v-model="editData.description" type="textarea" outlined placeholder="介紹" /> -->
+        <!-- <q-toggle
           v-model="editData.show"
           checked-icon="check"
           color="green"
           unchecked-icon="clear"
           label="是否上架"
-        />
+        /> -->
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -163,25 +178,34 @@ export default {
         price: '',
         description: ''
       },
-      // options: [],
+      status: [
+        {
+          label: '尚未付款',
+          value: 0
+        },
+        {
+          label: '待出貨',
+          value: 1
+        },
+        {
+          label: '出貨中',
+          value: 2
+        },
+        {
+          label: '已送達',
+          value: 3
+        }
+      ],
       model: ''
     }
   },
   methods: {
-    editProduct (data) {
+    editOrder (data) {
       this.edit = true
       this.editData = data
     },
     update (data) {
-      this.$axios.patch(process.env.API + '/back/orders/' + data.item, {
-        class: data.class,
-        name: data.name,
-        subheading: data.subheading,
-        intro: data.intro,
-        price: data.price,
-        description: data.description,
-        show: data.show
-      })
+      this.$axios.patch(process.env.API + '/back/orders/' + data.item, data)
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -212,11 +236,37 @@ export default {
       this.$axios.delete(process.env.API + '/back/orders/' + data.item)
         .then(response => {
           this.reload()
-          alert(response.data.message)
+          this.$q.dialog({
+            title: 'ok',
+            message: response.data.message
+          })
         })
         .catch(error => {
           console.log(error)
+          this.$q.dialog({
+            title: 'error',
+            message: '伺服器錯誤'
+          })
         })
+    },
+    removeOrder (data) {
+      this.$q.dialog({
+        title: 'Prompt',
+        message: '請輸入訂單編號',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(input => {
+        this.remove(input === data.item ? data : 0)
+        // console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
     }
   },
   mounted () {
