@@ -78,6 +78,20 @@ const routes = [
           login: true
         }
       },
+      {
+        path: 'Orders',
+        component: () => import('pages/order/Orders.vue'),
+        meta: {
+          login: true
+        }
+      },
+      {
+        path: 'Payment',
+        component: () => import('pages/order/Payment.vue'),
+        meta: {
+          login: true
+        }
+      },
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'Reg', component: () => import('pages/Reg.vue') }
     ]

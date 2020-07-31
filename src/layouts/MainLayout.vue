@@ -180,69 +180,6 @@ export default {
         .catch(error => {
           alert(error.response.data.message)
         })
-    },
-    updateProduct (data) {
-      this.$axios.patch(process.env.API + '/products/' + data.item, {
-        class: data.class,
-        name: data.name,
-        subheading: data.subheading,
-        intro: data.intro,
-        price: data.price,
-        description: data.description,
-        show: data.show
-      })
-        .then(response => {
-          this.reload()
-          alert(response.data.message)
-        })
-        .catch(error => {
-          alert(error.response.data.message)
-        })
-    },
-    createProduct (data) {
-      this.$axios.post(process.env.API + '/products', {
-        class: data.class,
-        name: data.name,
-        subheading: data.subheading,
-        intro: data.intro,
-        price: data.price,
-        description: data.description,
-        show: data.show
-      })
-        .then(response => {
-          this.reload()
-          alert(response.data.message)
-        })
-        .catch(error => {
-          alert(error.response.data.message)
-        })
-    },
-    updateCategory (data) {
-      this.$axios.patch(process.env.API + '/categorys/' + data.item, {
-        name: data.name,
-        show: data.show
-      })
-        .then(response => {
-          this.reload()
-          alert(response.data.message)
-        })
-        .catch(error => {
-          alert(error.response.data.message)
-        })
-    },
-    createCategory (data) {
-      this.$axios.post(process.env.API + '/categorys', {
-        item: data.item,
-        name: data.name,
-        show: data.show
-      })
-        .then(response => {
-          this.reload()
-          alert(response.data.message)
-        })
-        .catch(error => {
-          alert(error.response.data.message)
-        })
     }
   },
   computed: {
@@ -264,11 +201,7 @@ export default {
     return {
       reload: this.reload,
       submit: this.submit,
-      upload: this.upload,
-      updateProduct: this.updateProduct,
-      createProduct: this.createProduct,
-      updateCategory: this.updateCategory,
-      createCategory: this.createCategory
+      upload: this.upload
     }
   }
 }

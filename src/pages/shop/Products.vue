@@ -122,7 +122,7 @@
 
 <script>
 export default {
-  inject: ['upload', 'updateProduct', 'createProduct', 'reload'],
+  inject: ['upload', 'reload'],
   data () {
     return {
       columns: [
@@ -167,15 +167,45 @@ export default {
       this.editData = data
     },
     update (data) {
-      this.updateProduct(data)
+      this.$axios.patch(process.env.API + '/products/' + data.item, {
+        class: data.class,
+        name: data.name,
+        subheading: data.subheading,
+        intro: data.intro,
+        price: data.price,
+        description: data.description,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
     },
     create (data) {
-      this.createProduct(data)
+      this.$axios.post(process.env.API + '/products', {
+        class: data.class,
+        name: data.name,
+        subheading: data.subheading,
+        intro: data.intro,
+        price: data.price,
+        description: data.description,
+        show: data.show
+      })
+        .then(response => {
+          this.reload()
+          alert(response.data.message)
+        })
+        .catch(error => {
+          alert(error.response.data.message)
+        })
     },
     remove (data) {
       this.$axios.delete(process.env.API + '/products/' + data.item)
         .then(response => {
-          console.log(response.data)
+          this.reload()
           alert(response.data.message)
         })
         .catch(error => {

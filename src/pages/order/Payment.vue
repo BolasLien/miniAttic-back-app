@@ -2,15 +2,15 @@
   <div id="category">
     <div class="row q-ma-md">
       <q-table
-        title="分類列表"
+        title="付款方式"
         :data="data"
         :columns="columns"
         row-key="name"
-        class="col-lg-6 col-sm-12"
+        class="col-lg-12 col-sm-12"
       >
       <template v-slot:top>
         <div class="text-h4">
-          分類列表
+          付款方式
         </div>
         <q-space></q-space>
           <q-btn push color="positive" label="新增分類" @click="add = true"></q-btn>
@@ -27,13 +27,23 @@
                 {{ props.row.name }}
                 </div>
             </q-td>
+            <q-td key="price" :props="props">
+                <div class="text-subtitle1 text-center">
+                {{ props.row.price }}
+                </div>
+            </q-td>
+            <q-td key="description" :props="props">
+                <div class="text-subtitle1 text-center">
+                {{ props.row.description }}
+                </div>
+            </q-td>
             <q-td key="show" :props="props">
               <q-badge :color="props.row.show? 'positive' : 'nagative'">
                 {{ props.row.show }}
               </q-badge>
             </q-td>
             <q-td key="action" :props="props">
-              <q-btn push color="primary" label="編輯內容" @click="editCategory(props.row)"></q-btn>
+              <q-btn push color="primary" label="編輯內容" @click="editPayment(props.row)"></q-btn>
               <q-btn push color="negative" label="刪除" @click="remove(props.row)"></q-btn>
             </q-td>
           </q-tr>
@@ -44,12 +54,14 @@
       <q-dialog v-model="add" persistent>
       <q-card style="min-width: 500px">
         <q-card-section>
-          <div class="text-h6">新增分類</div>
+          <div class="text-h6">新增付款方式</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
           <q-input class="text" v-model="addData.item" outlined placeholder="序號" />
-          <q-input class="text" v-model="addData.name" outlined placeholder="分類名稱" />
+          <q-input class="text" v-model="addData.name" outlined placeholder="名稱" />
+          <q-input class="text" v-model="addData.price" outlined placeholder="價格" />
+          <q-input class="text" v-model="addData.description" outlined placeholder="說明" />
         <q-toggle
           v-model="addData.show"
           checked-icon="check"
@@ -70,11 +82,13 @@
     <q-dialog v-model="edit" persistent>
       <q-card style="min-width: 500px">
         <q-card-section>
-          <div class="text-h6">編輯分類</div>
+          <div class="text-h6">編輯付款方式</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input class="text" v-model="editData.name" outlined placeholder="商品名稱" />
+          <q-input class="text" v-model="editData.name" outlined placeholder="名稱" />
+          <q-input class="text" v-model="editData.price" outlined placeholder="價格" />
+          <q-input class="text" v-model="editData.description" outlined placeholder="說明" />
           <q-toggle
             v-model="editData.show"
             checked-icon="check"
@@ -101,7 +115,9 @@ export default {
     return {
       columns: [
         { name: 'itemId', field: 'itemId', align: 'center', label: '序號', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'name', field: 'name', align: 'center', label: '分類名稱' },
+        { name: 'name', field: 'name', align: 'center', label: '名稱' },
+        { name: 'price', field: 'price', align: 'center', label: '價格' },
+        { name: 'description', field: 'description', align: 'center', label: '說明' },
         { name: 'show', field: 'show', align: 'center', label: '是否顯示', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'action', field: 'action', align: 'center', label: '操作' }
       ],
@@ -116,14 +132,16 @@ export default {
     }
   },
   methods: {
-    editCategory (data) {
+    editPayment (data) {
       this.edit = true
       this.editData = data
     },
     create (data) {
-      this.$axios.post(process.env.API + '/categorys', {
+      this.$axios.post(process.env.API + '/payments', {
         item: data.item,
         name: data.name,
+        price: data.price,
+        description: data.description,
         show: data.show
       })
         .then(response => {
@@ -135,8 +153,10 @@ export default {
         })
     },
     update (data) {
-      this.$axios.patch(process.env.API + '/categorys/' + data.item, {
+      this.$axios.patch(process.env.API + '/payments/' + data.item, {
         name: data.name,
+        price: data.price,
+        description: data.description,
         show: data.show
       })
         .then(response => {
@@ -148,20 +168,18 @@ export default {
         })
     },
     remove (data) {
-      this.$axios.delete(process.env.API + '/categorys/' + data.item)
+      this.$axios.delete(process.env.API + '/payments/' + data.item)
         .then(response => {
           this.reload()
-          console.log(response.data)
           alert(response.data.message)
         })
         .catch(error => {
           console.log(error)
         })
     }
-
   },
   mounted () {
-    this.$axios.get(process.env.API + '/categorys')
+    this.$axios.get(process.env.API + '/payments')
       .then((response) => {
         this.data = response.data.datas
       }).catch((error) => {

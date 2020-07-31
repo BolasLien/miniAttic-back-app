@@ -41,6 +41,21 @@
         />
       </q-expansion-item>
 
+      <q-expansion-item
+        expand-separator
+        icon="receipt"
+        label="訂單"
+        caption="訂單管理"
+        default-opened
+        :content-inset-level="0.5"
+      >
+        <EssentialLink
+          v-for="link in orderLinks"
+          :key="link.title"
+          v-bind="link"
+        />
+      </q-expansion-item>
+
     </q-list>
   </div>
 </template>
@@ -114,6 +129,20 @@ export default {
           caption: '商品分類',
           icon: 'fas fa-tags',
           to: 'Category'
+        }
+      ],
+      orderLinks: [
+        {
+          title: 'Orders',
+          caption: '訂單列表',
+          icon: 'fas fa-list',
+          to: 'orders'
+        },
+        {
+          title: 'Payment',
+          caption: '付款方式',
+          icon: 'fas fa-tags',
+          to: 'Payment'
         }
       ]
     }
