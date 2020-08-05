@@ -49,6 +49,7 @@ export default {
       .then(response => {
         this.title = response.data.datas.filter(e => e.item.includes('title'))[0]
         this.datas = response.data.datas.filter(e => !e.item.includes('title'))
+        this.datas.map(e => { e.src = process.env.API + '/image/' + e.src })
       })
       .catch(error => {
         alert(error.response.data.message)

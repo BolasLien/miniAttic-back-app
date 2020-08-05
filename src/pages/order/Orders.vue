@@ -273,6 +273,7 @@ export default {
     this.$axios.get(process.env.API + '/back/orders')
       .then((response) => {
         this.data = response.data.datas
+        this.data.map(e => { e.products.map(item => { item.src = process.env.API + '/image/' + item.src }) })
       }).catch((error) => {
         console.log(error.response.data)
       })
