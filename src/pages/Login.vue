@@ -38,7 +38,7 @@ export default {
   methods: {
     onSubmit () {
       this.$axios.post(
-        process.env.API + '/login',
+        process.env.API + '/back/login',
         { account: this.account, password: this.password }
       )
         .then(response => {
@@ -51,7 +51,7 @@ export default {
               message: '登入成功'
             })
             // 呼叫 vuex 的登入
-            this.$store.commit('login', this.account)
+            this.$store.commit('login', data)
 
             // 跳到登入後的相簿頁
             this.$router.push('/')

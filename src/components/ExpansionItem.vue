@@ -27,6 +27,7 @@
       </q-expansion-item>
 
       <q-expansion-item
+      v-if="accessRight === 'admin'"
         expand-separator
         icon="store"
         label="商店"
@@ -42,6 +43,7 @@
       </q-expansion-item>
 
       <q-expansion-item
+      v-if="accessRight === 'admin'"
         expand-separator
         icon="receipt"
         label="訂單"
@@ -145,6 +147,11 @@ export default {
           to: 'Payment'
         }
       ]
+    }
+  },
+  computed: {
+    accessRight () {
+      return this.$store.getters.accessRight
     }
   }
 }

@@ -1,6 +1,7 @@
 export default function () {
   return {
     //
-    user: ''
+    user: '',
+    access_right: ''
   }
 }
