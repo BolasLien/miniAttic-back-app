@@ -2,6 +2,10 @@ export function user (state) {
   return state.user
 }
 
-export function accessRight (state) {
-  return state.access_right
+export function access (state) {
+  return state.access
+}
+
+export function token (state) {
+  return state.token
 }

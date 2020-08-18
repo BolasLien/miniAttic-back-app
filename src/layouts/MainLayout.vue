@@ -151,9 +151,7 @@ export default {
         this.$axios
           .post(process.env.API + '/img/' + data.item, fd, {
             // 因為 axios 預設送 JSON，所以要自己設定成 formdata
-            headers: {
-              'content-Type': 'multipart/form-data'
-            }
+            headers: { 'content-Type': 'multipart/form-data', Authorization: `Bearer ${this.token}` }
           })
           .then(response => {
             this.reload()
@@ -165,14 +163,16 @@ export default {
       }
     },
     submit (data) {
+      const newData = {
+        show: data.show,
+        description1: (data.description1Model === undefined) ? data.description1 : data.description1Model,
+        description2: (data.description2Model === undefined) ? data.description2 : data.description2Model,
+        description3: (data.description3Model === undefined) ? data.description3 : data.description3Model,
+        link: (data.linkModel === undefined) ? data.link : data.linkModel
+      }
+
       this.$axios
-        .patch(process.env.API + '/pages/' + data.item, {
-          show: data.show,
-          description1: (data.description1Model === undefined) ? data.description1 : data.description1Model,
-          description2: (data.description2Model === undefined) ? data.description2 : data.description2Model,
-          description3: (data.description3Model === undefined) ? data.description3 : data.description3Model,
-          link: (data.linkModel === undefined) ? data.link : data.linkModel
-        })
+        .patch(process.env.API + '/pages/' + data.item, newData, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -186,16 +186,19 @@ export default {
     user () {
       return this.$store.getters.user
     },
+    token () {
+      return this.$store.getters.token
+    },
     isLogin () {
       const to = this.user.length !== 0 ? '/' : 'Login'
       return to
     }
   },
   mounted () {
-    this.heartbeat()
-    setInterval(() => {
-      this.heartbeat()
-    }, 1000 * 10)
+    // this.heartbeat()
+    // setInterval(() => {
+    //   this.heartbeat()
+    // }, 1000 * 10)
   },
   provide () {
     return {

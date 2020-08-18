@@ -35,6 +35,11 @@ export default {
       isPwd: true
     }
   },
+  computed: {
+    token () {
+      return this.$store.getters.token
+    }
+  },
   methods: {
     onSubmit () {
       this.$axios.post(

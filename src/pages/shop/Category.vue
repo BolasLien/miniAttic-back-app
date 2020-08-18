@@ -115,6 +115,11 @@ export default {
       editData: {}
     }
   },
+  computed: {
+    token () {
+      return this.$store.getters.token
+    }
+  },
   methods: {
     editCategory (data) {
       this.edit = true
@@ -125,7 +130,7 @@ export default {
         item: data.item,
         name: data.name,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -138,7 +143,7 @@ export default {
       this.$axios.patch(process.env.API + '/categorys/' + data.item, {
         name: data.name,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -148,7 +153,7 @@ export default {
         })
     },
     remove (data) {
-      this.$axios.delete(process.env.API + '/categorys/' + data.item)
+      this.$axios.delete(process.env.API + '/categorys/' + data.item, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           console.log(response.data)

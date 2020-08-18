@@ -131,6 +131,11 @@ export default {
       editData: {}
     }
   },
+  computed: {
+    token () {
+      return this.$store.getters.token
+    }
+  },
   methods: {
     editPayment (data) {
       this.edit = true
@@ -143,7 +148,7 @@ export default {
         price: data.price,
         description: data.description,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -158,7 +163,7 @@ export default {
         price: data.price,
         description: data.description,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -168,7 +173,7 @@ export default {
         })
     },
     remove (data) {
-      this.$axios.delete(process.env.API + '/payments/' + data.item)
+      this.$axios.delete(process.env.API + '/payments/' + data.item, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)

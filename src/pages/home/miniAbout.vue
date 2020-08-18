@@ -11,7 +11,7 @@
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <q-btn push color="primary" label="上傳" @click="upload(data)"/>
+        <q-btn push color="primary" label="上傳" @click="upload(data,'page')"/>
         <hr>
         <p>內容編輯</p>
         <q-input class="text" type="textarea" outlined v-model="data.description1Model" placeholder="圖片描述" :hint="data.description1" />

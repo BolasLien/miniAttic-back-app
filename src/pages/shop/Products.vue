@@ -161,6 +161,11 @@ export default {
       model: ''
     }
   },
+  computed: {
+    token () {
+      return this.$store.getters.token
+    }
+  },
   methods: {
     editProduct (data) {
       this.edit = true
@@ -175,7 +180,7 @@ export default {
         price: data.price,
         description: data.description,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -193,7 +198,7 @@ export default {
         price: data.price,
         description: data.description,
         show: data.show
-      })
+      }, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -203,7 +208,7 @@ export default {
         })
     },
     remove (data) {
-      this.$axios.delete(process.env.API + '/products/' + data.item)
+      this.$axios.delete(process.env.API + '/products/' + data.item, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
