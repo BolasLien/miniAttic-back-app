@@ -81,7 +81,7 @@ export default {
   methods: {
     logout () {
       this.$axios
-        .delete(process.env.API + '/logout')
+        .delete(process.env.API + '/login')
         .then(response => {
           const data = response.data
           // 如果回來的資料 success 是 true

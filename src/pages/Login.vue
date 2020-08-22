@@ -43,7 +43,7 @@ export default {
   methods: {
     onSubmit () {
       this.$axios.post(
-        process.env.API + '/back/login',
+        process.env.API + '/login',
         { account: this.account, password: this.password }
       )
         .then(response => {

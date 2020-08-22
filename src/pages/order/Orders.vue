@@ -210,7 +210,7 @@ export default {
       this.editData = data
     },
     update (data) {
-      this.$axios.patch(process.env.API + '/back/orders/' + data.item, data, { headers: { Authorization: `Bearer ${this.token}` } })
+      this.$axios.patch(process.env.API + '/orders/' + data.item, data, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           alert(response.data.message)
@@ -238,7 +238,7 @@ export default {
         })
     },
     remove (data) {
-      this.$axios.delete(process.env.API + '/back/orders/' + data.item, { headers: { Authorization: `Bearer ${this.token}` } })
+      this.$axios.delete(process.env.API + '/orders/' + data.item, { headers: { Authorization: `Bearer ${this.token}` } })
         .then(response => {
           this.reload()
           this.$q.dialog({
@@ -275,7 +275,7 @@ export default {
     }
   },
   mounted () {
-    this.$axios.get(process.env.API + '/back/orders', { headers: { Authorization: `Bearer ${this.token}` } })
+    this.$axios.get(process.env.API + '/orders', { headers: { Authorization: `Bearer ${this.token}` } })
       .then((response) => {
         this.data = response.data.datas
         this.data.map(e => { e.products.map(item => { item.src = process.env.API + '/image/' + item.src }) })
