@@ -47,7 +47,7 @@ module.exports = function (ctx) {
       env: {
         API: ctx.dev
           ? 'http://localhost:3000'
-          : 'http://localhost:3000'
+          : 'https://miniattic.herokuapp.com'
       },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
